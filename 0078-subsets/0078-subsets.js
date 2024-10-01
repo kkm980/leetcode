@@ -3,19 +3,24 @@
  * @return {number[][]}
  */
 var subsets = function(nums) {
-       let ans = [];
+ let ans = [];
+        function findSubsets(i, temp) {
+            if (i === nums.length) {
+                ans.push([...temp]); // Push a copy of temp when we reach the end of the array
+                return;
+            }
 
-    function fun(i, temp) {
-        ans.push([...temp]); // Use a new copy of temp
+            // Exclude the current element
+            findSubsets(i + 1, temp);
 
-        // Start iterating from 'i' instead of 0 to avoid redundant combinations
-        for (let j = i; j < nums.length; j++) {
-            temp.push(nums[j]);
-            fun(j + 1, temp);
-            temp.pop(); // Backtrack to remove the last added element
+            // Include the current element
+            temp.push(nums[i]);
+            findSubsets(i + 1, temp);
+
+            // Backtrack to remove the element for the next iteration
+            temp.pop();
         }
-    }
 
-    fun(0, []);
-    return ans;
+        findSubsets(0, []); // Start with an empty array
+        return ans;
 };
