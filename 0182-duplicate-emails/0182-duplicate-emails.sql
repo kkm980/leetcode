@@ -1,5 +1,5 @@
 # Write your MySQL query statement below
-SELECT p1.email as Email
+SELECT p2.email as Email
 FROM Person as p1
 JOIN Person as p2
 ON p1.email = p2.email
