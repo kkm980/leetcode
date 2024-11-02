@@ -8,7 +8,7 @@
 SELECT 
     Signups.user_id, 
     ROUND(COALESCE(SUM(IF(Confirmations.action = "confirmed", 1, 0)) / 
-    COUNT(Confirmations.action), 0), 2) AS confirmation_rate
+    COUNT(*), 0), 2) AS confirmation_rate
 FROM 
     Signups
 LEFT JOIN 
