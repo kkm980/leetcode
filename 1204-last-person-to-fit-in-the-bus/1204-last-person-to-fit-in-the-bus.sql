@@ -6,8 +6,8 @@ WITH CumulativeQueue AS (
         SUM(weight) OVER (ORDER BY turn) AS cumulative_weight
     FROM
         Queue
-    ORDER BY
-        turn
+    # ORDER BY
+    #     turn
 )
 SELECT
     person_name
