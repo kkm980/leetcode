@@ -7,7 +7,7 @@ WITH CumulativeQueue AS (
     FROM
         Queue
     ORDER BY
-        person_name
+        turn
 )
 SELECT
     person_name
