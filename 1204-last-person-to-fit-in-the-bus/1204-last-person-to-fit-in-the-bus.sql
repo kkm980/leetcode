@@ -7,7 +7,7 @@ WITH CumulativeQueue AS (
     FROM
         Queue
     ORDER BY
-        turn
+        cumulative_weight DESC
 )
 SELECT
     person_name
@@ -15,6 +15,6 @@ FROM
     CumulativeQueue
 WHERE
     cumulative_weight <= 1000
-ORDER BY
-    cumulative_weight DESC
+# ORDER BY
+#     cumulative_weight DESC
 LIMIT 1;
