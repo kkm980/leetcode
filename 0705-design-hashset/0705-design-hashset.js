@@ -1,6 +1,6 @@
 
 var MyHashSet = function() {
-    let set = new Set();
+    let set = [];
     this.set=set;
 };
 
@@ -9,7 +9,10 @@ var MyHashSet = function() {
  * @return {void}
  */
 MyHashSet.prototype.add = function(key) {
-    this.set.add(key);
+    if(this.contains(key)){
+        return;
+    }
+    this.set.push(key);
 };
 
 /** 
@@ -17,8 +20,9 @@ MyHashSet.prototype.add = function(key) {
  * @return {void}
  */
 MyHashSet.prototype.remove = function(key) {
-    if(this.set.has(key)){
-        this.set.delete(key);
+    let ind = this.set.indexOf(key);
+    if(ind !=-1){
+        this.set.splice(ind,1)
     }
 };
 
@@ -27,7 +31,7 @@ MyHashSet.prototype.remove = function(key) {
  * @return {boolean}
  */
 MyHashSet.prototype.contains = function(key) {
-    if(this.set.has(key)){
+    if(this.set.indexOf(key) != -1){
         return true;
     } else {
         return false;
