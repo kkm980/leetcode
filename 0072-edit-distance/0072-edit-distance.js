@@ -13,8 +13,11 @@ var minDistance = function(word1, word2) {
         // Helper function (top-down dp)
         const dp = (i, j) => {
             // Base cases
-            if (i === 0) return j; // Insert all characters of word2
-            if (j === 0) return i; // Delete all characters of word1
+            if(i<0 && j<0){ return 0}
+            if(i<0){ return j+1}
+            if(j<0){ return i+1}
+            // if (i === 0) return j; // Insert all characters of word2
+            // if (j === 0) return i; // Delete all characters of word1
 
             // Check if already computed
             if (memo[i][j] !== -1) return memo[i][j];
