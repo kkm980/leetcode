@@ -4,37 +4,51 @@
  * @return {boolean}
  */
 var isMatch = function(s, p) {
-    const n = s.length;
-    const m = p.length;
+    const memo = {};
 
-    // Create a DP table initialized to false
-    const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(false));
-
-    // Base case: Empty string matches an empty pattern
-    dp[0][0] = true;
-
-    // Handle patterns with '*' that can match an empty string
-    for (let j = 1; j <= m; j++) {
-        if (p[j - 1] === '*') {
-            dp[0][j] = dp[0][j - 2]; // '*' matches zero occurrences of the preceding element
+    // Recursive helper function with memoization
+    const dp = (i, j) => {
+        // If result is already computed, return it from the memoization table
+        if (memo.hasOwnProperty(`${i}-${j}`)) {
+            return memo[`${i}-${j}`];
         }
-    }
 
-    // Fill the DP table
-    for (let i = 1; i <= n; i++) {
-        for (let j = 1; j <= m; j++) {
-            if (p[j - 1] === '.' || p[j - 1] === s[i - 1]) {
-                // Match current characters or '.' wildcard
-                dp[i][j] = dp[i - 1][j - 1];
-            } else if (p[j - 1] === '*') {
-                // '*' matches zero occurrences or one/more occurrences of the preceding element
-                dp[i][j] = dp[i][j - 2] || 
-                           (dp[i - 1][j] && (s[i - 1] === p[j - 2] || p[j - 2] === '.'));
-            }
+        // Base case: If both strings are exhausted
+        if (i === s.length && j === p.length) {
+            return true;
         }
-    }
 
-    // Return the result from the DP table
-    return dp[n][m];
+        // If pattern is exhausted but string is not
+        if (j === p.length) {
+            return false;
+        }
+
+        // Check if the current characters match
+        let match = i < s.length && (s[i] === p[j] || p[j] === '.');
+
+        // If current character in pattern is '*'
+        if (j + 1 < p.length && p[j + 1] === '*') {
+            // Two cases for '*' in pattern:
+            // 1. Ignore the '*' and its preceding character (0 occurrences)
+            // 2. Use the '*' to match one or more of the preceding character (if the current character matches)
+            const result = dp(i, j + 2) || (match && dp(i + 1, j));
+            memo[`${i}-${j}`] = result;
+            return result;
+        }
+
+        // If the characters match (or it's a '.' wildcard), move both pointers
+        if (match) {
+            const result = dp(i + 1, j + 1);
+            memo[`${i}-${j}`] = result;
+            return result;
+        }
+
+        // No match found
+        memo[`${i}-${j}`] = false;
+        return false;
+    };
+
+    // Start the recursion from the beginning of both strings
+    return dp(0, 0);
 };
 
