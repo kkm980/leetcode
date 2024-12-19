@@ -6,33 +6,30 @@
  * @return {number[][]}
  */
 var floodFill = function(image, sr, sc, color) {
+    const oldColor = image[sr][sc];
     
-    let oldColor=image[sr][sc];
-    image[sr][sc]=color;
-    changeColor(sr-1,sc, oldColor, color);
-            changeColor(sr+1,sc, oldColor, color);
-            changeColor(sr,sc+1, oldColor, color);
-            changeColor(sr,sc-1, oldColor, color);
-    
-    function changeColor(r,c,oldColor, color){
-        if(r<0||r>=image.length||c<0||c>=image[0].length){
-            return;
-        }
-        if(image[r][c] !== oldColor){
-            return;
-        }
-         if(image[r][c] === color){
-            return;
-        }
-        if(image[r][c]===oldColor){
-            image[r][c]=color;
-            changeColor(r-1,c, oldColor, color);
-            changeColor(r+1,c, oldColor, color);
-            changeColor(r,c+1, oldColor, color);
-            changeColor(r,c-1, oldColor, color);
-        }
+    // If the old color is the same as the new color, no need to proceed
+    if (oldColor === color) {
+        return image;
     }
 
-    return image;
+    function changeColor(r, c) {
+        // Base cases: Out of bounds or color mismatch
+        if (r < 0 || r >= image.length || c < 0 || c >= image[0].length || image[r][c] !== oldColor) {
+            return;
+        }
 
+        // Change the color of the current pixel
+        image[r][c] = color;
+
+        // Recursively change the color of adjacent pixels
+        changeColor(r - 1, c); // Up
+        changeColor(r + 1, c); // Down
+        changeColor(r, c - 1); // Left
+        changeColor(r, c + 1); // Right
+    }
+
+    // Start the flood fill from the given starting point
+    changeColor(sr, sc);
+    return image;
 };
