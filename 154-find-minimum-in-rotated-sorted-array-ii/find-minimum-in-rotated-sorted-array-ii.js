@@ -3,22 +3,17 @@
  * @return {number}
  */
 var findMin = function(nums) {
-    let low = 0;
-    let high = nums.length - 1;
-
-    while (low <= high) {
-        let mid = Math.floor((low + high) / 2);
-
-        if (nums[mid] > nums[high]) {
-            low = mid + 1;
-        } else if (nums[mid] < nums[high]) {
-            high = mid;
-        }
-         else {
-            // nums[mid] === nums[high]
-            high--;  // shrink search space
+  let start = 0,
+      end = nums.length - 1;
+    while(start < end){
+        const mid = Math.floor((start + end) / 2 )
+        if(nums[mid] < nums[end]){
+            end = mid
+        }else if(nums[mid] > nums[end]){
+             start = mid + 1           
+        }else{
+            end -= 1;
         }
     }
-
-    return nums[low];
+    return nums[start]
 };
