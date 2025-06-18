@@ -25,5 +25,6 @@ var findPeakElement = function(nums) {
 
     // At the end, left === right and points to a peak
     return left;
+
 };
 
