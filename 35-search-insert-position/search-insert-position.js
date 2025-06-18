@@ -17,5 +17,5 @@ var searchInsert = function(nums, target) {
         }
 
     }
-    return high+1;
+    return low;
 };
