@@ -3,20 +3,27 @@
  * @return {number}
  */
 
-var findPeakElement = function (nums) {
-    let start = 0, end = nums.length - 1;
+var findPeakElement = function(nums) {
+    let left = 0;
+    let right = nums.length - 1;
 
-    while (start <= end) {
-        let mid = Math.floor((start + end) / 2);
+    // Binary search for peak
+    while (left < right) {
+        let mid = Math.floor((left + right) / 2);
 
-        // Edge case: when mid is at the last index
-        if (mid === nums.length - 1 || nums[mid] >= nums[mid + 1]) {
-            // Peak is on the left (including mid)
-            end = mid - 1;
+        // Compare current element with next one
+        if (nums[mid] > nums[mid + 1]) {
+            // You're in the decreasing slope,
+            // so the peak is to the left (including mid)
+            right = mid;
         } else {
-            // Peak is on the right
-            start = mid + 1;
+            // You're in the increasing slope,
+            // so the peak is to the right (excluding mid)
+            left = mid + 1;
         }
     }
-    return start;
+
+    // At the end, left === right and points to a peak
+    return left;
 };
+
