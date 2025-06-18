@@ -33,11 +33,12 @@ var search = function(nums, target) {
             return true;
         }
 
-        // If duplicates on both sides, shrink the search space
+         // If duplicates on both sides, shrink the search space
         if (nums[low] === nums[mid] && nums[mid] === nums[high]) {
             low++;
             high--;
         }
+       
         // Left half is sorted
         else if (nums[low] <= nums[mid]) {
             if (nums[low] <= target && target < nums[mid]) {
