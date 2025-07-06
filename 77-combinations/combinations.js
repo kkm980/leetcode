@@ -3,19 +3,25 @@
  * @param {number} k
  * @return {number[][]}
  */
-function combine(n, k) {
-    const result = [];
-    function backtrack(n, k, comb) {
-        if (k === 0) {
-            result.push([...comb]);
-            return;
+var combine = function(n, k) {
+    
+
+    let res = [];
+    function back(start,comb){
+        if(comb.length == k ){
+            res.push([...comb]);
+            return
         }
-        if (n === 0) return;
-        comb.push(n);
-        backtrack(n - 1, k - 1, comb);
-        comb.pop();
-        backtrack(n - 1, k, comb);
+
+        for(let i =start; i<=n;i++ ){
+            comb.push(i);
+            back(i+1,comb);
+            comb.pop()
+        }  
+
+
     }
-    backtrack(n, k, []);
-    return result;
+    back(1,[]);
+    return res;
+
 };
