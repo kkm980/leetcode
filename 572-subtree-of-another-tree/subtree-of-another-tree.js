@@ -1,25 +1,19 @@
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @param {TreeNode} subRoot
- * @return {boolean}
- */
 var isSubtree = function(root, subRoot) {
     if (!root) return false;
 
-    // ✅ If match found
+    // If the current tree matches, return true
     if (isSameTree(root, subRoot)) return true;
 
-    // \U0001f501 Recurse on left and right
+    // Else, check left and right subtrees
     return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
 };
+
+function isSameTree(p, q) {
+    if (!p && !q) return true;
+    if (!p || !q || p.val !== q.val) return false;
+
+    return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+}
 
 function isSameTree(s, t) {
     if (!s && !t) return true;
