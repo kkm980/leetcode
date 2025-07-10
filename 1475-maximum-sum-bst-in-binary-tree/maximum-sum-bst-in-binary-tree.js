@@ -10,23 +10,50 @@
  * @param {TreeNode} root
  * @return {number}
  */
- let res = 0;
- const helper = (node)=>{
-    if(node  === null)return {flag:true, sum:0, min:1e9, max:-1e9};
-    let leftBST = helper(node.left)
-    let rightBST = helper(node.right)
-    // console.log(leftBST.flag , rightBST.flag , leftBST.max , rightBST.min, node)
-    if(leftBST.flag && rightBST.flag && leftBST.max < node.val && rightBST.min > node.val )
-    {
-        let sum = leftBST.sum + rightBST.sum + node.val;
-        res = Math.max(res, sum)
-        return {flag:true, sum, min:Math.min(node.val, leftBST.min), max:Math.max(node.val, rightBST.max)}
-    }
-    return {flag:false, sum:0, min:-1e9, max:1e9}
-
- }
 var maxSumBST = function(root) {
-    res = 0;
-    helper(root);
-    return res;
+    let maxSum = 0;
+
+    function dfs(node) {
+        if (!node) {
+            // For null node, treat it as a valid BST with 0 sum
+            return {
+                isBST: true,
+                min: Infinity,
+                max: -Infinity,
+                sum: 0
+            };
+        }
+
+        let left = dfs(node.left);
+        let right = dfs(node.right);
+
+        // Check if current node forms a valid BST
+        if (
+            left.isBST && 
+            right.isBST && 
+            node.val > left.max && 
+            node.val < right.min
+        ) {
+            let currSum = left.sum + right.sum + node.val;
+            maxSum = Math.max(maxSum, currSum);
+
+            return {
+                isBST: true,
+                min: Math.min(node.val, left.min),
+                max: Math.max(node.val, right.max),
+                sum: currSum
+            };
+        }
+
+        // If not a BST, return invalid
+        return {
+            isBST: false,
+            min: 0,
+            max: 0,
+            sum: 0
+        };
+    }
+
+    dfs(root);
+    return maxSum;
 };
